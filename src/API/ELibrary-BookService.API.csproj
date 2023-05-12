@@ -7,6 +7,7 @@
     <RootNamespace>ELibrary_BookService</RootNamespace>
     <UserSecretsId>684d77fb-020a-4da1-94e5-d9d423c2049c</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
   </PropertyGroup>
 
   <ItemGroup>

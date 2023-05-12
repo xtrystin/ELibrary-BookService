@@ -7,16 +7,18 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
-COPY ["ELibrary-BookService/ELibrary-BookService.csproj", "ELibrary-BookService/"]
-RUN dotnet restore "ELibrary-BookService/ELibrary-BookService.csproj"
+COPY ["src/API/ELibrary-BookService.API.csproj", "src/API/"]
+COPY ["src/Domain/ELibrary-BookService.Domain.csproj", "src/Domain/"]
+COPY ["src/Infrastructure/ELibrary-BookService.Infrastructure.csproj", "src/Infrastructure/"]
+RUN dotnet restore "src/API/ELibrary-BookService.API.csproj"
 COPY . .
-WORKDIR "/src/ELibrary-BookService"
-RUN dotnet build "ELibrary-BookService.csproj" -c Release -o /app/build
+WORKDIR "/src/src/API"
+RUN dotnet build "ELibrary-BookService.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "ELibrary-BookService.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ELibrary-BookService.API.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ELibrary-BookService.dll"]
+ENTRYPOINT ["dotnet", "ELibrary-BookService.API.dll"]

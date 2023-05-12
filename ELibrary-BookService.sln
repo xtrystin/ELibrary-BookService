@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELibrary-BookService.API", "ELibrary-BookService\API\ELibrary-BookService.API.csproj", "{E0D27933-5C68-4750-AA0A-8013AC12E577}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELibrary-BookService.API", "src\API\ELibrary-BookService.API.csproj", "{E0D27933-5C68-4750-AA0A-8013AC12E577}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELibrary-BookService.Domain", "ELibrary-BookService\Domain\ELibrary-BookService.Domain.csproj", "{2035D96C-DC05-4522-BD1E-55BB625E7BFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELibrary-BookService.Domain", "src\Domain\ELibrary-BookService.Domain.csproj", "{2035D96C-DC05-4522-BD1E-55BB625E7BFC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELibrary-BookService.Infrastructure", "ELibrary-BookService\Infrastructure\ELibrary-BookService.Infrastructure.csproj", "{429DE8CE-3627-439E-AD28-ED448D865B84}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ELibrary-BookService.Infrastructure", "src\Infrastructure\ELibrary-BookService.Infrastructure.csproj", "{429DE8CE-3627-439E-AD28-ED448D865B84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

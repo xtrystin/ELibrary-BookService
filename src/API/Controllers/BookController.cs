@@ -80,6 +80,7 @@ namespace ELibrary_BookService.Controllers
 
         // POST api/<BookController>
         [HttpPost]
+        [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(404, Type = typeof(string))]
         [ProducesResponseType(400, Type = typeof(ValidationProblemDetails))]

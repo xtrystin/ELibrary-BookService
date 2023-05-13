@@ -13,7 +13,7 @@ namespace ELibrary_BookService.Domain.ValueObject
 
         public Description(string value)
         {
-            if (value.Length > MaxLength)
+            if (value?.Length > MaxLength)
                 throw new TooLongStringException($"Description cannot be longer than {MaxLength} characters");
             
             _value = value;

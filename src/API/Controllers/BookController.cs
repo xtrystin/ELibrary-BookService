@@ -1,7 +1,8 @@
 ﻿using ELibrary_BookService.Application.Command;
 using ELibrary_BookService.Application.Command.Dto;
+using ELibrary_BookService.Application.Dto;
 using ELibrary_BookService.Application.Query;
-using ELibrary_BookService.Application.Query.Dto;
+using ELibrary_BookService.Domain.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -26,6 +27,7 @@ namespace ELibrary_BookService.Controllers
 
         // GET: api/<BookController>
         [HttpGet]
+        [ProducesResponseType(200, Type = typeof(List<BookReadModel>))]
         public async Task <ActionResult<List<BookReadModel>>> Get()
         {
             var result = await _bookReadProvider.GetBooks();
@@ -65,6 +67,8 @@ namespace ELibrary_BookService.Controllers
 
         // GET api/<BookController>/5
         [HttpGet("{id}")]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(200, Type = typeof(BookReadModel))]
         public async Task<ActionResult<BookReadModel>> Get(int id)
         {
             var result = await _bookReadProvider.GetBook(id);
@@ -76,13 +80,23 @@ namespace ELibrary_BookService.Controllers
 
         // POST api/<BookController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(400, Type = typeof(ValidationProblemDetails))]
+        public async Task<ActionResult> Post([FromBody] CreateBookModel bookData)
         {
+            if (ModelState.IsValid == false)
+            {
+                var a = ModelState.Root.Errors.First().ErrorMessage;
+                return BadRequest(a);
+            }
+            await _bookProvider.CreateBook(bookData);
+            return NoContent();
         }
 
         // PUT api/<BookController>/5
         [HttpPatch("{id}")]
-        public void Patch(int id, [FromBody] ModifyBookModel payload)
+        public void Patch(int id, [FromBody] ModifyBookModel data)
         {
 
         }

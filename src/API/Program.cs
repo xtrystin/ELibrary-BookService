@@ -2,6 +2,7 @@ using ELibrary_BookService.Application.Command;
 using ELibrary_BookService.Application.Query;
 using ELibrary_BookService.Domain.Dapper;
 using ELibrary_BookService.Domain.EF;
+using ELibrary_BookService.Domain.EF.Repository;
 using ELibrary_BookService.Domain.Repository;
 using ELibrary_BookService.Extensions;
 using Microsoft.AspNetCore.Diagnostics;
@@ -65,7 +66,6 @@ builder.Services.AddAuthentication(options =>
                 );
 
 builder.Services.AddPostgres(builder.Configuration);
-builder.Services.AddScoped<IBookRepository, BookRepository>();
 
 builder.Services.AddScoped<IDapperDataAccess, DapperDataAccess>();
 builder.Services.AddScoped<IBookReadProvider, BookReadProvider>();

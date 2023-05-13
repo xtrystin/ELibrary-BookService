@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using ELibrary_BookService.Application.Query.Dto;
+using ELibrary_BookService.Application.Dto;
 using ELibrary_BookService.Domain.Dapper;
 using Npgsql;
 

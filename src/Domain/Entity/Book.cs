@@ -24,10 +24,28 @@ public class Book
 
     protected Book() { }
 
-    protected Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl, List<Author> authors)
+    // Builder
+    public Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl)
+    {
+        Random random = new Random();
+        Id = random.Next();
+        _createdDate = DateTime.Now;
+
+        _title = title;
+        _description = description;
+        _createdDate = DateTime.UtcNow;
+        _imageUrl = imageUrl;
+        _bookAmount = bookAmount;
+        _pdfUrl = pdfUrl;
+
+    }
+
+    protected Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl, List<Author> authors,
+        List<Category> categories, List<Tag> tags)
     {
         Random random= new Random();
         Id = random.Next();
+        
         _title = title;
         _description = description;
         _createdDate = DateTime.Now;
@@ -35,6 +53,8 @@ public class Book
         _bookAmount = bookAmount;
         _pdfUrl = pdfUrl;
         _authors = authors;
+        _categories = categories;
+        _tags = tags;
     }
 
     public void AddCategory(Category category)
@@ -64,9 +84,8 @@ public class Book
         _tags.Add(tag);
     }
 
-    public void RemoveTag(string tagName)
+    public void RemoveTag(Tag tag)
     {
-        var tag = _tags.FirstOrDefault(x => x.Name == tagName);
         if (_tags.Contains(tag))
             throw new NoItemException("Book does not have given tag");
 
@@ -81,6 +100,22 @@ public class Book
             throw new System.Exception("Book amount cannot be less than zero");
         
          _bookAmount -= amount;
+    }
+
+    public void AddAuthor(Author author)
+    {
+        if (_authors.Contains(author))
+            throw new AlreadyExistsException("Book has already this author");
+
+        _authors.Add(author);
+    }
+
+    public void RemoveAuthor(Author author)
+    {
+        if (_authors.Contains(author))
+            throw new NoItemException("Book does not have given author");
+
+        _authors.Remove(author);
     }
 
     public void ChangeDescription(Description description) => _description = description;

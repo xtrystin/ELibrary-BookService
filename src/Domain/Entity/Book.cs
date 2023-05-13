@@ -85,14 +85,12 @@ public class Book
         _tags.Remove(tag);
     }
 
-    public void AddBooks(int amount) => _bookAmount += amount;
-
-    public void RemoveBooks(int amount)
+    public void ChangeBookAmount(int amount)
     {
-        if (_bookAmount - amount < 0)
+        if (_bookAmount + amount < 0)
             throw new System.Exception("Book amount cannot be less than zero");
         
-         _bookAmount -= amount;
+         _bookAmount += amount;
     }
 
     public void AddAuthor(Author author)

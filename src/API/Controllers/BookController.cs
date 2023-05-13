@@ -111,5 +111,15 @@ namespace ELibrary_BookService.Controllers
             await _bookProvider.DeleteBook(id);
             return NoContent();
         }
+
+        [HttpPost("{id}/ChangeAmount")]
+        //[Authorize(Roles = "admin, employee")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> IncreaseBookAmount([FromRoute] int id, [FromBody] int amount)
+        {
+            await _bookProvider.ChangeBookAmount(id, amount);
+            return NoContent();
+        }
     }
 }

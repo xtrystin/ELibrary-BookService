@@ -23,11 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\Command\Handler\" />
-    <Folder Include="Application\Query\Handler\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Domain\ELibrary-BookService.Domain.csproj" />
     <ProjectReference Include="..\Infrastructure\ELibrary-BookService.Infrastructure.csproj" />
   </ItemGroup>

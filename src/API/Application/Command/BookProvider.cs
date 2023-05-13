@@ -1,7 +1,7 @@
 ﻿using ELibrary_BookService.Application.Exception;
 using ELibrary_BookService.Domain.Repository;
 
-namespace ELibrary_BookService.Application
+namespace ELibrary_BookService.Application.Command
 {
     public class BookProvider : IBookProvider
     {
@@ -11,7 +11,7 @@ namespace ELibrary_BookService.Application
         {
             _bookRepository = bookRepository;
         }
-        
+
         public void CreateBook()
         {
 

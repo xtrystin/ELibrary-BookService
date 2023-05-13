@@ -1,5 +1,7 @@
-﻿using ELibrary_BookService.Application;
-using ELibrary_BookService.Application.Dto;
+﻿using ELibrary_BookService.Application.Command;
+using ELibrary_BookService.Application.Command.Dto;
+using ELibrary_BookService.Application.Query;
+using ELibrary_BookService.Application.Query.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -79,9 +81,10 @@ namespace ELibrary_BookService.Controllers
         }
 
         // PUT api/<BookController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPatch("{id}")]
+        public void Patch(int id, [FromBody] ModifyBookModel payload)
         {
+
         }
 
         // DELETE api/<BookController>/5

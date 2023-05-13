@@ -1,6 +1,6 @@
-﻿namespace ELibrary_BookService.Application.Command
+﻿namespace ELibrary_BookService.Application.Command.Dto
 {
-    public class ModifyBookCommand
+    public class ModifyBookModel
     {
         public int Id { get; set; }
         public string? NewTitle { get; set; }

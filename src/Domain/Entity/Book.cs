@@ -19,12 +19,12 @@ public class Book
 
     public IReadOnlyCollection<Category> Categories => _categories;
     public IReadOnlyCollection<Author> Autors => _authors;
-    public IReadOnlyCollection<Tag> Tage => _tags;
+    public IReadOnlyCollection<Tag> Tags => _tags;
 
 
     protected Book() { }
 
-    protected Book(Title title, Description description, string createdDate, string imageUrl, int bookAmount, string? pdfUrl, List<Author> authors)
+    protected Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl, List<Author> authors)
     {
         Random random= new Random();
         Id = random.Next();

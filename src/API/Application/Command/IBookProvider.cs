@@ -1,6 +1,7 @@
 ﻿namespace ELibrary_BookService.Application.Command
 {
-    public class RemoveCategoryCommand
+    public interface IBookProvider
     {
+        Task DeleteBook(int id);
     }
 }

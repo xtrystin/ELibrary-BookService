@@ -1,4 +1,5 @@
-using ELibrary_BookService.Application;
+using ELibrary_BookService.Application.Command;
+using ELibrary_BookService.Application.Query;
 using ELibrary_BookService.Domain.Dapper;
 using ELibrary_BookService.Domain.EF;
 using ELibrary_BookService.Domain.Repository;

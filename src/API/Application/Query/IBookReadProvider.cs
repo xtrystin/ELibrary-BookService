@@ -1,6 +1,6 @@
-﻿using ELibrary_BookService.Application.Dto;
+﻿using ELibrary_BookService.Application.Query.Dto;
 
-namespace ELibrary_BookService.Application
+namespace ELibrary_BookService.Application.Query
 {
     public interface IBookReadProvider
     {

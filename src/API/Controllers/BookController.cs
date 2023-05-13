@@ -65,6 +65,7 @@ namespace ELibrary_BookService.Controllers
         // GET api/<BookController>/5
         [HttpGet("{id}")]
         [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
         [ProducesResponseType(200, Type = typeof(BookReadModel))]
         public async Task<ActionResult<BookReadModel>> Get(int id)
         {

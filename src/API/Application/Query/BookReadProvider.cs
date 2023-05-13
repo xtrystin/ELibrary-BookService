@@ -7,12 +7,10 @@ namespace ELibrary_BookService.Application.Query
 {
     public class BookReadProvider : IBookReadProvider
     {
-        private readonly IDapperDataAccess _db;
         private readonly IConfiguration _configuration;
 
-        public BookReadProvider(IDapperDataAccess db, IConfiguration configuration)
+        public BookReadProvider(IConfiguration configuration)
         {
-            _db = db;
             _configuration = configuration;
         }
 

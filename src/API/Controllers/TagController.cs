@@ -1,4 +1,6 @@
 ﻿using ELibrary_BookService.Application.Command;
+using ELibrary_BookService.Application.Dto;
+using ELibrary_BookService.Application.Query;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;
@@ -10,10 +12,36 @@ namespace ELibrary_BookService.Controllers
     public class TagController : ControllerBase
     {
         private readonly ICommonProvider _commonProvider;
+        private readonly ICommonReadProvider _commonReadProvider;
 
-        public TagController(ICommonProvider commonProvider)
+        public TagController(ICommonProvider commonProvider, ICommonReadProvider commonReadProvider)
         {
             _commonProvider = commonProvider;
+            _commonReadProvider = commonReadProvider;
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(200, Type = typeof(BookReadModel))]
+        public async Task<ActionResult<TagReadModel>> Get(int id)
+        {
+            var result = await _commonReadProvider.GetTag(id);
+            if (result is null)
+                return NotFound("Tag does not exist");
+
+            return result;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(200, Type = typeof(BookReadModel))]
+        public async Task<ActionResult<List<TagReadModel>>> GetAll()
+        {
+            var result = await _commonReadProvider.GetTags();
+
+            return result;
         }
 
         [HttpPost]

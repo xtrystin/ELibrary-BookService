@@ -11,6 +11,7 @@ namespace ELibrary_BookService.Application
             // Read Providers
             services.AddScoped<IDapperDataAccess, DapperDataAccess>();
             services.AddScoped<IBookReadProvider, BookReadProvider>();
+            services.AddScoped<ICommonReadProvider, CommonReadProvider>();
             
             // Write Providers
             services.AddScoped<IBookProvider, BookProvider>();

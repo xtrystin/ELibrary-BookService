@@ -36,7 +36,7 @@ builder.Services.AddProviderCollection();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() == true)
+if (builder.Configuration["Flags:EnableUserFriendlyErrorMessages"] == "1")
 {
     app.UseExceptionHandler(c => c.Run(async context =>
     {

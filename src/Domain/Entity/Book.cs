@@ -109,9 +109,11 @@ public class Book
         _authors.Remove(author);
     }
 
-    public void ChangeDescription(Description description) => _description = description;
-
-    public void AddPdfLink(string pdfUrl) => _pdfUrl = pdfUrl;
-
-    public void ChangeImage(string imageUrl) => _imageUrl = imageUrl;
+    public void Modify(string title, string description, string imageUrl, string pdfUrl)
+    {
+        _title = string.IsNullOrEmpty(title) ? _title : new Title(title);
+        _description = string.IsNullOrEmpty(description) ? _description : new Description(description);
+        _imageUrl = string.IsNullOrEmpty(imageUrl) ? _imageUrl : imageUrl;
+        _pdfUrl = pdfUrl is null ? _pdfUrl : (pdfUrl == "") ? null : pdfUrl;
+    }
 }

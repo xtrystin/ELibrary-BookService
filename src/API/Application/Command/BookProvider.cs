@@ -91,4 +91,14 @@ public class BookProvider : IBookProvider
         book.ChangeBookAmount(amount);
         await _bookRepository.UpdateAsync(book);
     }
+
+    public async Task ModifyBookModel(int id, ModifyBookModel bookData)
+    {
+        var book = await _bookRepository.GetAsync(id);
+        if (book is null)
+            throw new EntityNotFoundException("Book has not been found");
+
+        book.Modify(bookData.NewTitle, bookData.NewDescription, bookData.NewImageUrl, bookData.NewPdfUrl);
+        await _bookRepository.UpdateAsync(book);
+    }
 }

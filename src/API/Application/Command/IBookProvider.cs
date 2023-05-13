@@ -7,5 +7,6 @@ namespace ELibrary_BookService.Application.Command
         Task ChangeBookAmount(int id, int amount);
         Task CreateBook(CreateBookModel bookData);
         Task DeleteBook(int id);
+        Task ModifyBookModel(int id, ModifyBookModel bookData);
     }
 }

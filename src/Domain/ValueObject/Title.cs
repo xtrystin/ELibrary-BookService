@@ -8,7 +8,9 @@ namespace ELibrary_BookService.Domain.ValueObject
 
         public Title(string value)
         {
-            if (value?.Length > MaxLength)
+            if (string.IsNullOrEmpty(value))
+                throw new NoItemException("Title cannot be empty");
+            if (value.Length > MaxLength)
                 throw new TooLongStringException($"Title cannot be longer than {MaxLength} characters");
 
             _value = value;

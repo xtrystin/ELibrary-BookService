@@ -32,6 +32,7 @@ namespace ELibrary_BookService.Application.Query
             var books = await connection.QueryAsync<BookReadModel, CategoryReadModel, TagReadModel, AuthorReadModel,
                 (BookReadModel BookReadModel, CategoryReadModel CategoryReadModel, TagReadModel TagReadModel, AuthorReadModel AuthorReadModel)>(sql, (book, category, tag, author) => (book, category, tag, author), param: new { Id = id }, splitOn: "Id");
 
+            // Map multiple many to many relations to book object's lists
             var result = books.GroupBy(bc => bc.BookReadModel.Id)
                 .Select(g =>
                 {

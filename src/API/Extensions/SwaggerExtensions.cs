@@ -32,6 +32,7 @@ public static class SwaggerExtensions
                 new string[] {}
             }
          });
+            c.EnableAnnotations();
         });
 
         return services;

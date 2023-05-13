@@ -1,4 +1,4 @@
-using ELibrary_BookService.Application.Command;
+using ELibrary_BookService.Application;
 using ELibrary_BookService.Application.Query;
 using ELibrary_BookService.Domain.Dapper;
 using ELibrary_BookService.Domain.EF;
@@ -31,21 +31,21 @@ builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddPostgres(builder.Configuration);
 
-builder.Services.AddScoped<IDapperDataAccess, DapperDataAccess>();
-builder.Services.AddScoped<IBookReadProvider, BookReadProvider>();
-builder.Services.AddScoped<IBookProvider, BookProvider>();
+builder.Services.AddProviderCollection();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment() == false)
+if (app.Environment.IsDevelopment() == true)
 {
     app.UseExceptionHandler(c => c.Run(async context =>
     {
         var exception = context.Features
             .Get<IExceptionHandlerPathFeature>()
             .Error;
-        var response = new { error = exception.Message };
+        //var response = new { error = exception.Message };
+        var response = exception.Message;
+        context.Response.StatusCode = StatusCodes.Status400BadRequest;
         await context.Response.WriteAsJsonAsync(response);
     }));
 

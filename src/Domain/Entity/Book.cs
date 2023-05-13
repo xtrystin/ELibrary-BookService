@@ -5,7 +5,7 @@ namespace ELibrary_BookService.Domain.Entity;
 
 public class Book
 {
-    public int Id { get; private set; }
+    public int? Id { get; private set; }    // nullable, because DB will auto generate ID on insert
     private Title _title;
     private Description _description;
     private DateTime _createdDate;
@@ -27,10 +27,6 @@ public class Book
     // Builder
     public Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl)
     {
-        Random random = new Random();
-        Id = random.Next();
-        _createdDate = DateTime.Now;
-
         _title = title;
         _description = description;
         _createdDate = DateTime.UtcNow;
@@ -43,9 +39,6 @@ public class Book
     protected Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl, List<Author> authors,
         List<Category> categories, List<Tag> tags)
     {
-        Random random= new Random();
-        Id = random.Next();
-        
         _title = title;
         _description = description;
         _createdDate = DateTime.Now;

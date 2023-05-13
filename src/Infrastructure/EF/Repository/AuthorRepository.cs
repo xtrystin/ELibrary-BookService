@@ -1,11 +1,6 @@
 ﻿using ELibrary_BookService.Domain.Entity;
 using ELibrary_BookService.Domain.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ELibrary_BookService.Domain.EF.Repository
 {
@@ -17,5 +12,8 @@ namespace ELibrary_BookService.Domain.EF.Repository
 
         public override async Task<Author?> GetAsync(int id)
             => await _dbContext.Authors.FirstOrDefaultAsync(x => x.Id == id);
+
+        public Task<bool> Exists(string firstname, string lastname)
+           => _dbContext.Authors.AnyAsync(x => x.Firstname == firstname && x.Lastname == lastname);
     }
 }

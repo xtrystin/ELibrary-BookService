@@ -12,5 +12,8 @@ namespace ELibrary_BookService.Domain.EF.Repository
 
         public override async Task<Tag?> GetAsync(int id)
             => await _dbContext.Tags.FirstOrDefaultAsync(x => x.Id == id);
+
+        public Task<bool> Exists(string name)
+            => _dbContext.Tags.AnyAsync(x => x.Name == name);
     }
 }

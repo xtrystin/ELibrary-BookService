@@ -2,11 +2,8 @@
 using ELibrary_BookService.Application.Command.Dto;
 using ELibrary_BookService.Application.Dto;
 using ELibrary_BookService.Application.Query;
-using ELibrary_BookService.Domain.Entity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
-using System.Text.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -67,7 +64,7 @@ namespace ELibrary_BookService.Controllers
 
         // GET api/<BookController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(200, Type = typeof(BookReadModel))]
         public async Task<ActionResult<BookReadModel>> Get(int id)
         {
@@ -82,8 +79,8 @@ namespace ELibrary_BookService.Controllers
         [HttpPost]
         [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(400, Type = typeof(string))]
-        [ProducesResponseType(404, Type = typeof(string))]
-        [ProducesResponseType(400, Type = typeof(ValidationProblemDetails))]
+        [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(204)]
         public async Task<ActionResult> Post([FromBody] CreateBookModel bookData)
         {
             if (ModelState.IsValid == false)
@@ -105,7 +102,8 @@ namespace ELibrary_BookService.Controllers
         // DELETE api/<BookController>/5
         [Authorize(Roles = "admin, employee")]
         [HttpDelete("{id}")]
-        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(401, Type = typeof(string))]
         [ProducesResponseType(204)]
         public async Task<ActionResult> Delete(int id)
         {

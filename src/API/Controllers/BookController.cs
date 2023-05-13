@@ -1,5 +1,6 @@
 ﻿using ELibrary_BookService.Application;
 using ELibrary_BookService.Application.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
@@ -84,10 +85,14 @@ namespace ELibrary_BookService.Controllers
         }
 
         // DELETE api/<BookController>/5
+        [Authorize(Roles = "admin, employee")]
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> Delete(int id)
         {
             await _bookProvider.DeleteBook(id);
+            return NoContent();
         }
     }
 }

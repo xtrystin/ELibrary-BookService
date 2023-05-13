@@ -29,4 +29,4 @@ jobs:
           context: .
           file: src/API/Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/elibrary-bookservice:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/elib-bookservice:latest

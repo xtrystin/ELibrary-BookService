@@ -77,6 +77,22 @@ namespace ELibrary_BookService.Controllers
             return result;
         }
 
+        // GET api/<BookController>/5
+        [HttpGet("ByFilter")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(200, Type = typeof(BookReadModel))]
+        [SwaggerOperation(Summary = "Get Books by one or more filters. Omitt filters which you do not want to use")]
+        public async Task<ActionResult<List<BookReadModel>>> GetByFilter([FromQuery] int? categoryId, 
+            [FromQuery] int? tagId, [FromQuery] int? authorId)
+        {
+            var result = await _bookReadProvider.GetBooksByFilter(categoryId, tagId, authorId);
+            if (result is null)
+                return NotFound("Book does not exist");
+
+            return result;
+        }
+
         // POST api/<BookController>
         [HttpPost]
         [Authorize(Roles = "admin, employee")]

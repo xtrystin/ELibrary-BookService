@@ -2,6 +2,7 @@
 using ELibrary_BookService.Application.Dto;
 using ELibrary_BookService.Domain.Dapper;
 using Npgsql;
+using System.Collections;
 
 namespace ELibrary_BookService.Application.Query
 {
@@ -78,6 +79,49 @@ namespace ELibrary_BookService.Application.Query
 
                     //var a = g.Select(bc => bc.CategoryReadModel).ToList();
                     //book.Tags = g.Select(bc => bc.TagReadModel).ToList();
+                    book.Categories = g.Select(bc => bc.CategoryReadModel).Where(x => x != null).GroupBy(x => x.Id)
+                        .Select(x => new CategoryReadModel(x.First().Id, x.First().Name)).ToList();
+
+                    book.Tags = g.Select(bc => bc.TagReadModel).Where(x => x != null).GroupBy(x => x.Id)
+                        .Select(x => new TagReadModel(x.First().Id, x.First().Name)).ToList();
+
+                    book.Authors = g.Select(bc => bc.AuthorReadModel).Where(x => x != null).GroupBy(x => x.Id)
+                        .Select(x => new AuthorReadModel(x.First().Id, x.First().Firstname, x.First().Lastname)).ToList();
+
+                    return book;
+                });
+
+            return result.ToList();
+        }
+
+        public async Task<List<BookReadModel>?> GetBooksByFilter(int? catId, int? tagId, int? authorId)
+        {
+            using var connection = new NpgsqlConnection(_configuration.GetConnectionString("PostgresResourceDb"));
+
+            string catFilter = catId != null ? @"AND ""Category"".""Id"" = @CatId" : "";
+            string tagFilter = tagId != null ? @"AND ""Tag"".""Id"" = @TagId" : "";
+            string authorFilter = authorId != null ? @"AND ""Author"".""Id"" = @AuthorId" : "";
+
+            string sql = $@"SELECT ""Book"".""Id"", ""Book"".""BookAmount"", ""Book"".""CreatedDate"", ""Book"".""Description"", ""Book"".""ImageUrl"", ""Book"".""PdfUrl"", ""Book"".""Title"", ""Category"".""Id"", ""Category"".""Name"", ""Tag"".""Id"", ""Tag"".""Name"", ""Author"".""Id"", ""Author"".""Firstname"", ""Author"".""Lastname""
+                    FROM ""bookService"".""Book""
+                    LEFT JOIN ""bookService"".""BookCategory"" ON ""BookCategory"".""BooksId"" = ""Book"".""Id""
+                    LEFT JOIN ""bookService"".""Category"" ON ""Category"".""Id"" = ""BookCategory"".""CategoriesId""
+                    LEFT JOIN ""bookService"".""BookTag"" ON ""BookTag"".""BooksId"" = ""Book"".""Id""
+                    LEFT JOIN ""bookService"".""Tag"" ON ""Tag"".""Id"" = ""BookTag"".""TagsId""
+                    LEFT JOIN ""bookService"".""AuthorBook"" ON ""AuthorBook"".""BooksId"" = ""Book"".""Id""
+                    LEFT JOIN ""bookService"".""Author"" ON ""Author"".""Id"" = ""AuthorBook"".""AutorsId""
+                    WHERE 1 = 1 {catFilter} {tagFilter} {authorFilter}
+";
+
+            var books = await connection.QueryAsync<BookReadModel, CategoryReadModel, TagReadModel, AuthorReadModel,
+                (BookReadModel BookReadModel, CategoryReadModel CategoryReadModel, TagReadModel TagReadModel, AuthorReadModel AuthorReadModel)>(sql, (book, category, tag, author) => (book, category, tag, author), param: new { CatId = catId, TagId = tagId, AuthorId = authorId }, splitOn: "Id");
+
+            // Map multiple many to many relations to book object's lists
+            var result = books.GroupBy(bc => bc.BookReadModel.Id)
+                .Select(g =>
+                {
+                    var book = g.First().BookReadModel;
+
                     book.Categories = g.Select(bc => bc.CategoryReadModel).Where(x => x != null).GroupBy(x => x.Id)
                         .Select(x => new CategoryReadModel(x.First().Id, x.First().Name)).ToList();
 

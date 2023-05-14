@@ -98,6 +98,7 @@ namespace ELibrary_BookService.Controllers
         [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
         [ProducesResponseType(204)]
         public async Task<ActionResult> Post([FromBody] CreateBookModel bookData)
         {
@@ -115,6 +116,7 @@ namespace ELibrary_BookService.Controllers
         [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
         [ProducesResponseType(204)]
         [SwaggerOperation(Summary = "Modify book data. You can send params which you want to change. Omitted params will remain the same. newPdfLink with value \"\" will set pdfLink to null")]
         public async Task<ActionResult> Patch(int id, [FromBody] ModifyBookModel bookData)
@@ -124,10 +126,11 @@ namespace ELibrary_BookService.Controllers
         }
 
         // DELETE api/<BookController>/5
-        [Authorize(Roles = "admin, employee")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
         [ProducesResponseType(204)]
         public async Task<ActionResult> Delete(int id)
         {
@@ -136,11 +139,12 @@ namespace ELibrary_BookService.Controllers
         }
 
         [HttpPost("{id}/ChangeAmount")]
-        [Authorize(Roles = "admin, employee")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
         [ProducesResponseType(204)]
-        public async Task<ActionResult> IncreaseBookAmount([FromRoute] int id, [FromBody] int amount)
+        public async Task<ActionResult> ChangeBookAmount([FromRoute] int id, [FromBody] int amount)
         {
             await _bookProvider.ChangeBookAmount(id, amount);
             return NoContent();

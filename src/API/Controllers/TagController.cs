@@ -48,6 +48,7 @@ namespace ELibrary_BookService.Controllers
         [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
         [ProducesResponseType(204)]
         public async Task<ActionResult> CreateTag([FromBody] string tagName)
         {
@@ -59,6 +60,7 @@ namespace ELibrary_BookService.Controllers
         [Authorize(Roles = "admin, employee")]
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
         [ProducesResponseType(204)]
         public async Task<ActionResult> DeleteTag([FromRoute] int id)
         {

@@ -1,4 +1,4 @@
-﻿namespace ELibrary_BookService.Domain.Dapper;
+﻿namespace ELibrary_BookService.Infrastructure.Dapper;
 
 public interface IDapperDataAccess
 {

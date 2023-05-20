@@ -1,6 +1,6 @@
 ﻿using ELibrary_BookService.Domain.ValueObject;
 
-namespace ELibrary_BookService.Application.Dto
+namespace ELibrary_BookService.Application.Query.Models
 {
     public class BookReadModel
     {

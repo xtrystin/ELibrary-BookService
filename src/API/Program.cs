@@ -1,14 +1,8 @@
 using ELibrary_BookService.Application;
-using ELibrary_BookService.Application.Query;
-using ELibrary_BookService.Domain.Dapper;
-using ELibrary_BookService.Domain.EF;
-using ELibrary_BookService.Domain.EF.Repository;
-using ELibrary_BookService.Domain.Repository;
 using ELibrary_BookService.Extensions;
+using ELibrary_BookService.Infrastructure.EF;
+using ELibrary_BookService.RabbitMq;
 using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +24,7 @@ builder.Services.AddSwagger();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddPostgres(builder.Configuration);
+builder.Services.AddRabbitMq(builder.Configuration);
 
 builder.Services.AddProviderCollection();
 
@@ -53,6 +48,8 @@ if (builder.Configuration["Flags:EnableUserFriendlyErrorMessages"] == "1")
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseStaticFiles();
 
 app.UseHttpsRedirection();
 app.UseCors("OpenCorsPolicy");

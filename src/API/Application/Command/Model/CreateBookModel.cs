@@ -1,7 +1,4 @@
-﻿using ELibrary_BookService.Application.Dto;
-using System.ComponentModel.DataAnnotations;
-
-namespace ELibrary_BookService.Application.Command.Dto
+﻿namespace ELibrary_BookService.Application.Command.Model
 {
     public class CreateBookModel
     {

@@ -1,4 +1,4 @@
-﻿using ELibrary_BookService.Application.Command.Dto;
+﻿using ELibrary_BookService.Application.Command.Model;
 
 namespace ELibrary_BookService.Application.Command
 {
@@ -7,6 +7,6 @@ namespace ELibrary_BookService.Application.Command
         Task ChangeBookAmount(int id, int amount);
         Task CreateBook(CreateBookModel bookData);
         Task DeleteBook(int id);
-        Task ModifyBookModel(int id, ModifyBookModel bookData);
+        Task ModifyBook(int id, ModifyBookModel bookData);
     }
 }

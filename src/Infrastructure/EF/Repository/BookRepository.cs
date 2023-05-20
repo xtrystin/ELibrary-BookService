@@ -1,4 +1,4 @@
-﻿using ELibrary_BookService.Domain.EF.Repository;
+﻿using ELibrary_BookService.Infrastructure.EF.Repository;
 using ELibrary_BookService.Domain.Entity;
 using ELibrary_BookService.Domain.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELibrary_BookService.Domain.EF
+namespace ELibrary_BookService.Infrastructure.EF
 {
     public class BookRepository : EntityRepository<Book>, IBookRepository
     {

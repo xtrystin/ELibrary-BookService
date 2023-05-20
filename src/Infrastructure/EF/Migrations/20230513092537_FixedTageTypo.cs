@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace ELibrary_BookService.Domain.Migrations
+namespace ELibrary_BookService.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class FixedTageTypo : Migration

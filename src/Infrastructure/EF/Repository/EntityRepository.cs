@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ELibrary_BookService.Domain.EF.Repository
+namespace ELibrary_BookService.Infrastructure.EF.Repository
 {
     public abstract class EntityRepository<T> : IEntityRepository<T>
     {

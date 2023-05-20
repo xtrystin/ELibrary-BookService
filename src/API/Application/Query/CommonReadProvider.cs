@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using ELibrary_BookService.Application.Dto;
+using ELibrary_BookService.Application.Query.Models;
 using Npgsql;
 
 namespace ELibrary_BookService.Application.Query

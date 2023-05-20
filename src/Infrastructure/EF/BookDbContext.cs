@@ -1,8 +1,8 @@
-﻿using ELibrary_BookService.Domain.EF.Config;
+﻿using ELibrary_BookService.Infrastructure.EF.Config;
 using ELibrary_BookService.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace ELibrary_BookService.Domain.EF
+namespace ELibrary_BookService.Infrastructure.EF
 {
     public class BookDbContext : DbContext
     {

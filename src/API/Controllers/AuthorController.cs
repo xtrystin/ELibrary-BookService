@@ -1,7 +1,7 @@
 ﻿using ELibrary_BookService.Application.Command;
-using ELibrary_BookService.Application.Command.Dto;
-using ELibrary_BookService.Application.Dto;
+using ELibrary_BookService.Application.Command.Model;
 using ELibrary_BookService.Application.Query;
+using ELibrary_BookService.Application.Query.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Data;

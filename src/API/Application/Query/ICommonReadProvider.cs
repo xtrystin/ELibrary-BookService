@@ -1,4 +1,4 @@
-﻿using ELibrary_BookService.Application.Dto;
+﻿using ELibrary_BookService.Application.Query.Models;
 
 namespace ELibrary_BookService.Application.Query
 {

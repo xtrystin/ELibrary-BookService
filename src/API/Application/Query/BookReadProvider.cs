@@ -1,8 +1,6 @@
 ﻿using Dapper;
-using ELibrary_BookService.Application.Dto;
-using ELibrary_BookService.Domain.Dapper;
+using ELibrary_BookService.Application.Query.Models;
 using Npgsql;
-using System.Collections;
 
 namespace ELibrary_BookService.Application.Query
 {

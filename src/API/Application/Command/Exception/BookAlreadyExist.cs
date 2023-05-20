@@ -1,4 +1,4 @@
-﻿namespace ELibrary_BookService.Application.Exception
+﻿namespace ELibrary_BookService.Application.Command.Exception
 {
     public class BookAlreadyExist : System.Exception
     {

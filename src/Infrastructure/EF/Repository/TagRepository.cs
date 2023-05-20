@@ -2,7 +2,7 @@
 using ELibrary_BookService.Domain.Repository;
 using Microsoft.EntityFrameworkCore;
 
-namespace ELibrary_BookService.Domain.EF.Repository
+namespace ELibrary_BookService.Infrastructure.EF.Repository
 {
     public class TagRepository : EntityRepository<Tag>, ITagRepository
     {

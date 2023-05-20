@@ -1,7 +1,7 @@
 ﻿using ELibrary_BookService.Application.Command;
-using ELibrary_BookService.Application.Command.Dto;
-using ELibrary_BookService.Application.Dto;
+using ELibrary_BookService.Application.Command.Model;
 using ELibrary_BookService.Application.Query;
+using ELibrary_BookService.Application.Query.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -121,7 +121,7 @@ namespace ELibrary_BookService.Controllers
         [SwaggerOperation(Summary = "Modify book data. You can send params which you want to change. Omitted params will remain the same. newPdfLink with value \"\" will set pdfLink to null")]
         public async Task<ActionResult> Patch(int id, [FromBody] ModifyBookModel bookData)
         {
-            await _bookProvider.ModifyBookModel(id, bookData);
+            await _bookProvider.ModifyBook(id, bookData);
             return NoContent();
         }
 

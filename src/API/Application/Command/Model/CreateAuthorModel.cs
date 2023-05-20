@@ -1,4 +1,4 @@
-﻿namespace ELibrary_BookService.Application.Command.Dto
+﻿namespace ELibrary_BookService.Application.Command.Model
 {
     public class CreateAuthorModel
     {

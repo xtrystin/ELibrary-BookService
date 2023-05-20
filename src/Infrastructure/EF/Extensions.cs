@@ -1,10 +1,10 @@
-﻿using ELibrary_BookService.Domain.EF.Repository;
-using ELibrary_BookService.Domain.Repository;
+﻿using ELibrary_BookService.Domain.Repository;
+using ELibrary_BookService.Infrastructure.EF.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ELibrary_BookService.Domain.EF
+namespace ELibrary_BookService.Infrastructure.EF
 {
     public static class Extensions
     {

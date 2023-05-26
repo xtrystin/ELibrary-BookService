@@ -18,7 +18,7 @@ public class Book
     private List<Tag> _tags = new();
 
     public IReadOnlyCollection<Category> Categories => _categories;
-    public IReadOnlyCollection<Author> Autors => _authors;
+    public IReadOnlyCollection<Author> Autors => _authors;      //todo: fix typo
     public IReadOnlyCollection<Tag> Tags => _tags;
 
 
@@ -53,18 +53,16 @@ public class Book
     public void AddCategory(Category category)
     {
         if (_categories.Contains(category))
-            throw new AlreadyExistsException("Book has already this category");
+            throw new AlreadyExistsException($"Book has already this category: {category.Name}");
         
                 _categories.Add(category);
     }
 
-    public void RemoveCategory(string categoryName)
+    public void RemoveCategory(Category category)
     {
-        var category = _categories.FirstOrDefault(x => x.Name == categoryName);
-        if (category is null) 
-        {
-            throw new NoItemException("Book does not have given category");
-        }
+        
+        if (_categories.Contains(category) is false) 
+            throw new NoItemException($"Book does not have given category: {category.Name}");
 
         _categories.Remove(category);
     }
@@ -72,15 +70,15 @@ public class Book
     public void AddTag(Tag tag) 
     {
         if (_tags.Contains(tag))
-            throw new AlreadyExistsException("Book has already this tag");
+            throw new AlreadyExistsException($"Book has already this tag: {tag.Name}");
 
         _tags.Add(tag);
     }
 
     public void RemoveTag(Tag tag)
     {
-        if (_tags.Contains(tag))
-            throw new NoItemException("Book does not have given tag");
+        if (_tags.Contains(tag) is false)
+            throw new NoItemException($"Book does not have given tag: {tag.Name}");
 
         _tags.Remove(tag);
     }
@@ -96,15 +94,15 @@ public class Book
     public void AddAuthor(Author author)
     {
         if (_authors.Contains(author))
-            throw new AlreadyExistsException("Book has already this author");
+            throw new AlreadyExistsException($"Book has already this author: {author.Firstname} {author.Lastname}");
 
         _authors.Add(author);
     }
 
     public void RemoveAuthor(Author author)
     {
-        if (_authors.Contains(author))
-            throw new NoItemException("Book does not have given author");
+        if (_authors.Contains(author) is false)
+            throw new NoItemException($"Book does not have given author: {author.Firstname} {author.Lastname}");
 
         _authors.Remove(author);
     }

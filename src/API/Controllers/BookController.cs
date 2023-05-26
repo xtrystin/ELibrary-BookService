@@ -150,5 +150,82 @@ namespace ELibrary_BookService.Controllers
             return NoContent();
         }
 
+        [HttpPost("{id}/AddToCategories")]
+        [Authorize(Roles = "employee, admin")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> AddToCategories([FromRoute] int id, [FromBody] List<int> categoriesId)
+        {
+            await _bookProvider.AddToCategories(id, categoriesId);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}/RemoveCategories")]
+        [Authorize(Roles = "employee, admin")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> RemoveCategories([FromRoute] int id, [FromBody] List<int> categoriesId)
+        {
+            await _bookProvider.RemoveCategories(id, categoriesId);
+            return NoContent();
+        }
+
+        [HttpPost("{id}/AddToTags")]
+        [Authorize(Roles = "employee, admin")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> AddToTags([FromRoute] int id, [FromBody] List<int> tagsId)
+        {
+            await _bookProvider.AddToTags(id, tagsId);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}/RemoveTags")]
+        [Authorize(Roles = "employee, admin")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> RemoveTags([FromRoute] int id, [FromBody] List<int> tagsId)
+        {
+            await _bookProvider.RemoveTags(id, tagsId);
+            return NoContent();
+        }
+
+        [HttpPost("{id}/AddAuthors")]
+        //[Authorize(Roles = "employee, admin")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> AddAuthors([FromRoute] int id, [FromBody] List<int> authorsId)
+        {
+            await _bookProvider.AddAuthors(id, authorsId);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}/RemoveAuthors")]
+        [Authorize(Roles = "employee, admin")]
+        [ProducesResponseType(400, Type = typeof(string))]
+        [ProducesResponseType(401, Type = typeof(string))]
+        [ProducesResponseType(403, Type = typeof(string))]
+        [ProducesResponseType(404, Type = typeof(string))]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> RemoveAuthors([FromRoute] int id, [FromBody] List<int> authorsId)
+        {
+            await _bookProvider.RemoveAuthors(id, authorsId);
+            return NoContent();
+        }
     }
 }

@@ -17,6 +17,6 @@ namespace ELibrary_BookService.Infrastructure.EF
         }
 
         public override async Task<Book?> GetAsync(int id) 
-            => await _dbContext.Books.FirstOrDefaultAsync(x => x.Id == id);
+            => await _dbContext.Books.Include(book => book.Tags).Include(book => book.Categories).Include(book => book.Autors).FirstOrDefaultAsync(x => x.Id == id);
     }
 }

@@ -5,6 +5,7 @@ using ELibrary_BookService.Domain.Entity;
 using ELibrary_BookService.Domain.Repository;
 using ELibrary_BookService.Domain.ValueObject;
 using MassTransit;
+using System.Net;
 
 namespace ELibrary_BookService.Application.Command;
 
@@ -34,57 +35,110 @@ public class BookProvider : IBookProvider
         if (bookData.AuthorsId?.Count == 0)
             throw new System.Exception("AuthorIds cannot be empty");
 
-        await AddAuthors(book, bookData.AuthorsId);
-        await AddCategories(book, bookData.CategoriesId);
-        await AddTags(book, bookData.TagsId);
+        await _bookRepository.AddAsync(book);   // Add now to get bookId
 
-        await _bookRepository.AddAsync(book);
+        await AddAuthors(book.Id.Value, bookData.AuthorsId);
+        await AddToCategories(book.Id.Value, bookData.CategoriesId);
+        await AddToTags(book.Id.Value, bookData.TagsId);
+
+        await _bookRepository.UpdateAsync(book);
 
         var message = new BookAvailabilityChanged() { BookId = book.Id.Value, Amount = bookData.BookAmount };
         //await _bus.Publish(message);  // todo: uncomment when rabbit is ready
     }
 
-    private async Task AddTags(Book book, List<int>? tagsId)
+    public async Task AddToTags(int bookId, List<int>? tagsId)
     {
+        var book = await GetBookOrThrow(bookId);
+
         foreach (var tagId in tagsId)
         {
             var tag = await _tagRepository.GetAsync(tagId);
             if (tag is null)
-                throw new EntityNotFoundException("Tag has not been found");
+                throw new EntityNotFoundException($"Tag has not been found: {tagsId}");
 
             book.AddTag(tag);
+            await _bookRepository.UpdateAsync(book);
+        }
+    }
+    public async Task RemoveTags(int bookId, List<int>? tagsId)
+    {
+        var book = await GetBookOrThrow(bookId);
+
+        foreach (var tagId in tagsId)
+        {
+            var tag = await _tagRepository.GetAsync(tagId);
+            if (tag is null)
+                throw new EntityNotFoundException($"Tag has not been found: {tagsId}");
+
+            book.RemoveTag(tag);
+            await _bookRepository.UpdateAsync(book);
         }
     }
 
-    private async Task AddCategories(Book book, List<int>? categoriesId)
+    public async Task AddToCategories(int bookId, List<int>? categoriesId)
     {
+        var book = await GetBookOrThrow(bookId);
+
         foreach (var catId in categoriesId)
         {
             var category = await _categoryRepository.GetAsync(catId);
             if (category is null)
-                throw new EntityNotFoundException("Category has not been found");
+                throw new EntityNotFoundException($"Category has not been found: {catId}");
 
             book.AddCategory(category);
+            await _bookRepository.UpdateAsync(book);
         }
     }
 
-    private async Task AddAuthors(Book book, List<int>? authorsId)
+    public async Task RemoveCategories(int bookId, List<int>? categoriesId)
     {
+        var book = await GetBookOrThrow(bookId);
+
+        foreach (var catId in categoriesId)
+        {
+            var category = await _categoryRepository.GetAsync(catId);
+            if (category is null)
+                throw new EntityNotFoundException($"Category has not been found: {catId}");
+
+            book.RemoveCategory(category);
+            await _bookRepository.UpdateAsync(book);
+        }
+    }
+
+    public async Task AddAuthors(int bookId, List<int>? authorsId)
+    {
+        var book = await GetBookOrThrow(bookId);
+
         foreach (var authorId in authorsId)
         {
             var author = await _authorRepository.GetAsync(authorId);
             if (author is null)
-                throw new EntityNotFoundException("Author has not been found");
+                throw new EntityNotFoundException($"Author has not been found: {authorId}");
 
             book.AddAuthor(author);
+            await _bookRepository.UpdateAsync(book);
+        }
+    }
+
+    public async Task RemoveAuthors(int bookId, List<int>? authorsId)
+    {
+        var book = await GetBookOrThrow(bookId);
+
+        foreach (var authorId in authorsId)
+        {
+            var author = await _authorRepository.GetAsync(authorId);
+            if (author is null)
+                throw new EntityNotFoundException($"Author has not been found: {authorId}");
+
+            book.RemoveAuthor(author);
+            await _bookRepository.UpdateAsync(book);
         }
     }
 
     public async Task DeleteBook(int id)
     {
-        var book = await _bookRepository.GetAsync(id);
-        if (book is null)
-            throw new EntityNotFoundException("Book has not been found");
+        var book = await GetBookOrThrow(id);
 
         await _bookRepository.DeleteAsync(book);
 
@@ -94,9 +148,7 @@ public class BookProvider : IBookProvider
 
     public async Task ChangeBookAmount(int id, int amount)
     {
-        var book = await _bookRepository.GetAsync(id);
-        if (book is null)
-            throw new EntityNotFoundException("Book has not been found");
+        var book = await GetBookOrThrow(id);
 
         book.ChangeBookAmount(amount);
         await _bookRepository.UpdateAsync(book);
@@ -107,11 +159,18 @@ public class BookProvider : IBookProvider
 
     public async Task ModifyBook(int id, ModifyBookModel bookData)
     {
+        var book = await GetBookOrThrow(id);
+
+        book.Modify(bookData.NewTitle, bookData.NewDescription, bookData.NewImageUrl, bookData.NewPdfUrl);
+        await _bookRepository.UpdateAsync(book);
+    }
+
+    private async Task<Book> GetBookOrThrow(int id)
+    {
         var book = await _bookRepository.GetAsync(id);
         if (book is null)
             throw new EntityNotFoundException("Book has not been found");
 
-        book.Modify(bookData.NewTitle, bookData.NewDescription, bookData.NewImageUrl, bookData.NewPdfUrl);
-        await _bookRepository.UpdateAsync(book);
+        return book;
     }
 }

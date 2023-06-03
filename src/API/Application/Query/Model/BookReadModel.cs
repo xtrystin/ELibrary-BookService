@@ -1,4 +1,5 @@
-﻿using ELibrary_BookService.Domain.ValueObject;
+﻿using ELibrary_BookService.Application.Query.Model;
+using ELibrary_BookService.Domain.ValueObject;
 
 namespace ELibrary_BookService.Application.Query.Models
 {
@@ -14,6 +15,8 @@ namespace ELibrary_BookService.Application.Query.Models
         public List<CategoryReadModel> Categories { get; set; }
         public List<TagReadModel> Tags { get; set; }
         public List<AuthorReadModel> Authors { get; set; }
+        public List<ReactionReadModel> Reactions { get; set; }
+        public List<ReviewReadModel> Reviews { get; set; }
 
     }
 }

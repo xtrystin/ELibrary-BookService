@@ -1,11 +1,11 @@
 ﻿using ELibrary_BookService.Application.Command.Exception;
 using ELibrary_BookService.Application.Command.Model;
-using RabbitMqMessages;
 using ELibrary_BookService.Domain.Entity;
 using ELibrary_BookService.Domain.Repository;
 using ELibrary_BookService.Domain.ValueObject;
+using ELibrary_BookService.ServiceBus;
 using MassTransit;
-using System.Net;
+using ServiceBusMessages;
 
 namespace ELibrary_BookService.Application.Command;
 
@@ -15,16 +15,16 @@ public class BookProvider : IBookProvider
     private readonly IAuthorRepository _authorRepository;
     private readonly ITagRepository _tagRepository;
     private readonly ICategoryRepository _categoryRepository;
-    private readonly IBus _bus;
+    private readonly IMessagePublisher _messagePublisher;
 
     public BookProvider(IBookRepository bookRepository, IAuthorRepository authorRepository,
-        ITagRepository tagRepository, ICategoryRepository categoryRepository, IBus bus)
+        ITagRepository tagRepository, ICategoryRepository categoryRepository, IMessagePublisher messagePublisher)
     {
         _bookRepository = bookRepository;
         _authorRepository = authorRepository;
         _tagRepository = tagRepository;
         _categoryRepository = categoryRepository;
-        _bus = bus;
+        _messagePublisher = messagePublisher;
     }
 
     public async Task CreateBook(CreateBookModel bookData)
@@ -43,8 +43,8 @@ public class BookProvider : IBookProvider
 
         await _bookRepository.UpdateAsync(book);
 
-        var message = new BookAvailabilityChanged() { BookId = book.Id.Value, Amount = bookData.BookAmount };
-        //await _bus.Publish(message);  // todo: uncomment when rabbit is ready
+        var message = new BookCreated() { BookId = book.Id.Value, Amount = bookData.BookAmount };
+        await _messagePublisher.Publish(message);
     }
 
     public async Task AddToTags(int bookId, List<int>? tagsId)
@@ -143,7 +143,7 @@ public class BookProvider : IBookProvider
         await _bookRepository.DeleteAsync(book);
 
         var message = new BookAvailabilityChanged() { BookId = id, Amount = -999999999 };
-        //await _bus.Publish(message); // todo: uncomment when rabbit is ready
+        await _messagePublisher.Publish(message);
     }
 
     public async Task ChangeBookAmount(int id, int amount)
@@ -154,7 +154,7 @@ public class BookProvider : IBookProvider
         await _bookRepository.UpdateAsync(book);
 
         var message = new BookAvailabilityChanged() { BookId = id, Amount = amount };
-        // await _bus.Publish(message); // todo: uncomment when rabbit is ready
+         await _messagePublisher.Publish(message);
     }
 
     public async Task ModifyBook(int id, ModifyBookModel bookData)

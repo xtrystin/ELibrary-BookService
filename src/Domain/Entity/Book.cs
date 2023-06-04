@@ -107,7 +107,7 @@ public class Book
         _authors.Remove(author);
     }
 
-    public void Modify(string title, string description, string imageUrl, string pdfUrl)
+    public void Modify(string? title, string? description, string? imageUrl, string? pdfUrl)
     {
         _title = string.IsNullOrEmpty(title) ? _title : new Title(title);
         _description = string.IsNullOrEmpty(description) ? _description : new Description(description);

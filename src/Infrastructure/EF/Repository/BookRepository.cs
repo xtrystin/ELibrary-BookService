@@ -1,12 +1,7 @@
-﻿using ELibrary_BookService.Infrastructure.EF.Repository;
-using ELibrary_BookService.Domain.Entity;
+﻿using ELibrary_BookService.Domain.Entity;
 using ELibrary_BookService.Domain.Repository;
+using ELibrary_BookService.Infrastructure.EF.Repository;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ELibrary_BookService.Infrastructure.EF
 {

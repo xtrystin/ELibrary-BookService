@@ -24,7 +24,7 @@ builder.Services.AddSwagger();
 builder.Services.AddJwtAuthentication(builder.Configuration);
 
 builder.Services.AddPostgres(builder.Configuration);
-builder.Services.AddRabbitMq(builder.Configuration);
+builder.Services.AddServiceBus(builder.Configuration);
 
 builder.Services.AddProviderCollection();
 

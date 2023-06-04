@@ -26,8 +26,8 @@ public class MessagePublisher : IMessagePublisher
             if (message is BookCreated)
             {
                 var m = message as BookCreated;
-                var userServiceMessage = new BookCreatedU();
-                var borrowingServiceMessage = new BookCreatedBr();
+                var userServiceMessage = new BookCreatedU() { BookId = m.BookId, Amount = m.Amount };
+                var borrowingServiceMessage = new BookCreatedBr() { BookId = m.BookId, Amount = m.Amount };
                 
                 await _bus.Send(userServiceMessage);
                 await _bus.Send(borrowingServiceMessage);
@@ -39,6 +39,13 @@ public class MessagePublisher : IMessagePublisher
                 var borrowingServiceMessage = new BookRemovedBr() { BookId = m.BookId };
 
                 await _bus.Send(userServiceMessage);
+                await _bus.Send(borrowingServiceMessage);
+            }
+            else if (message is BookAvailabilityChanged)
+            {
+                var m = message as BookAvailabilityChanged;
+                var borrowingServiceMessage = new BookAvailabilityChangedBr() { BookId = m.BookId, Amount = m.Amount };
+
                 await _bus.Send(borrowingServiceMessage);
             }
             else

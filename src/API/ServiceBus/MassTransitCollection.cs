@@ -51,6 +51,9 @@ namespace ELibrary_BookService.RabbitMq
                         EndpointConvention.Map<BookRemovedU>(new Uri($"queue:{nameof(BookRemovedU)}"));
                         cfg.Message<BookRemovedU>(cfgTopology => cfgTopology.SetEntityName(nameof(BookRemovedU)));
 
+                        EndpointConvention.Map<BookAvailabilityChangedBr>(new Uri($"queue:{nameof(BookAvailabilityChangedBr)}"));
+                        cfg.Message<BookAvailabilityChangedBr>(cfgTopology => cfgTopology.SetEntityName(nameof(BookAvailabilityChangedBr)));
+
 
                         /// Consumers configuration ///
                         cfg.ReceiveEndpoint("bookavailabilitychangedbk", e =>

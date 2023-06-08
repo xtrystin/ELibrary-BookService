@@ -26,9 +26,12 @@ namespace ELibrary_BookService.Controllers
         // GET: api/<BookController>
         [HttpGet]
         [ProducesResponseType(200, Type = typeof(List<BookReadModel>))]
+        [SwaggerOperation(Summary = "User's info properties in Reviews are all null except UserId")]
         public async Task <ActionResult<List<BookReadModel>>> Get()
         {
             var result = await _bookReadProvider.GetBooks();
+            if (result is null || result.Count == 0)
+                return NotFound("No book has been found");
             return result;
            /* BookReadModel book = new()
             {
@@ -82,7 +85,7 @@ namespace ELibrary_BookService.Controllers
         [ProducesResponseType(400, Type = typeof(string))]
         [ProducesResponseType(404, Type = typeof(string))]
         [ProducesResponseType(200, Type = typeof(BookReadModel))]
-        [SwaggerOperation(Summary = "Get Books by one or more filters. Omitt filters which you do not want to use")]
+        [SwaggerOperation(Summary = "Get Books by one or more filters. Omitt filters which you do not want to use.\n User's info properties in Reviews are all null except UserId")]
         public async Task<ActionResult<List<BookReadModel>>> GetByFilter([FromQuery] int? categoryId, 
             [FromQuery] int? tagId, [FromQuery] int? authorId)
         {

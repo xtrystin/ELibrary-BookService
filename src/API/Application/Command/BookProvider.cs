@@ -142,7 +142,7 @@ public class BookProvider : IBookProvider
 
         await _bookRepository.DeleteAsync(book);
 
-        var message = new BookAvailabilityChanged() { BookId = id, Amount = -999999999 };
+        var message = new BookRemoved() { BookId = id };
         await _messagePublisher.Publish(message);
     }
 

@@ -1,9 +1,4 @@
 ﻿using ELibrary_BookService.Domain.Exception;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ELibrary_BookService.Domain.ValueObject
 {
@@ -13,6 +8,8 @@ namespace ELibrary_BookService.Domain.ValueObject
 
         public Title(string value)
         {
+            if (string.IsNullOrEmpty(value))
+                throw new NoItemException("Title cannot be empty");
             if (value.Length > MaxLength)
                 throw new TooLongStringException($"Title cannot be longer than {MaxLength} characters");
 

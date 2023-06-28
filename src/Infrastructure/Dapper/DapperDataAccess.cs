@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Npgsql;
 using System.Collections;
 
-namespace ELibrary_BookService.Domain.Dapper
+namespace ELibrary_BookService.Infrastructure.Dapper
 {
     public class DapperDataAccess : IDapperDataAccess
     {

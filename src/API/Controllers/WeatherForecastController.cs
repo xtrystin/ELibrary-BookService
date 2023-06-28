@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ELibrary_BookService.Controllers
@@ -12,17 +13,17 @@ namespace ELibrary_BookService.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IBus _bus;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IBus bus)
         {
             _logger = logger;
+            _bus = bus;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
-
-
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

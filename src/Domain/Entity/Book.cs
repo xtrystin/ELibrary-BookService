@@ -5,7 +5,7 @@ namespace ELibrary_BookService.Domain.Entity;
 
 public class Book
 {
-    public int Id { get; private set; }
+    public int? Id { get; private set; }    // nullable, because DB will auto generate ID on insert
     private Title _title;
     private Description _description;
     private DateTime _createdDate;
@@ -18,16 +18,27 @@ public class Book
     private List<Tag> _tags = new();
 
     public IReadOnlyCollection<Category> Categories => _categories;
-    public IReadOnlyCollection<Author> Autors => _authors;
+    public IReadOnlyCollection<Author> Autors => _authors;      //todo: fix typo
     public IReadOnlyCollection<Tag> Tags => _tags;
 
 
     protected Book() { }
 
-    protected Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl, List<Author> authors)
+    // Builder
+    public Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl)
     {
-        Random random= new Random();
-        Id = random.Next();
+        _title = title;
+        _description = description;
+        _createdDate = DateTime.UtcNow;
+        _imageUrl = imageUrl;
+        _bookAmount = bookAmount;
+        _pdfUrl = pdfUrl;
+
+    }
+
+    protected Book(Title title, Description description, string imageUrl, int bookAmount, string? pdfUrl, List<Author> authors,
+        List<Category> categories, List<Tag> tags)
+    {
         _title = title;
         _description = description;
         _createdDate = DateTime.Now;
@@ -35,23 +46,23 @@ public class Book
         _bookAmount = bookAmount;
         _pdfUrl = pdfUrl;
         _authors = authors;
+        _categories = categories;
+        _tags = tags;
     }
 
     public void AddCategory(Category category)
     {
         if (_categories.Contains(category))
-            throw new AlreadyExistsException("Book has already this category");
+            throw new AlreadyExistsException($"Book has already this category: {category.Name}");
         
                 _categories.Add(category);
     }
 
-    public void RemoveCategory(string categoryName)
+    public void RemoveCategory(Category category)
     {
-        var category = _categories.FirstOrDefault(x => x.Name == categoryName);
-        if (category is null) 
-        {
-            throw new NoItemException("Book does not have given category");
-        }
+        
+        if (_categories.Contains(category) is false) 
+            throw new NoItemException($"Book does not have given category: {category.Name}");
 
         _categories.Remove(category);
     }
@@ -59,33 +70,48 @@ public class Book
     public void AddTag(Tag tag) 
     {
         if (_tags.Contains(tag))
-            throw new AlreadyExistsException("Book has already this tag");
+            throw new AlreadyExistsException($"Book has already this tag: {tag.Name}");
 
         _tags.Add(tag);
     }
 
-    public void RemoveTag(string tagName)
+    public void RemoveTag(Tag tag)
     {
-        var tag = _tags.FirstOrDefault(x => x.Name == tagName);
-        if (_tags.Contains(tag))
-            throw new NoItemException("Book does not have given tag");
+        if (_tags.Contains(tag) is false)
+            throw new NoItemException($"Book does not have given tag: {tag.Name}");
 
         _tags.Remove(tag);
     }
 
-    public void AddBooks(int amount) => _bookAmount += amount;
-
-    public void RemoveBooks(int amount)
+    public void ChangeBookAmount(int amount)
     {
-        if (_bookAmount - amount < 0)
+        if (_bookAmount + amount < 0)
             throw new System.Exception("Book amount cannot be less than zero");
         
-         _bookAmount -= amount;
+         _bookAmount += amount;
     }
 
-    public void ChangeDescription(Description description) => _description = description;
+    public void AddAuthor(Author author)
+    {
+        if (_authors.Contains(author))
+            throw new AlreadyExistsException($"Book has already this author: {author.Firstname} {author.Lastname}");
 
-    public void AddPdfLink(string pdfUrl) => _pdfUrl = pdfUrl;
+        _authors.Add(author);
+    }
 
-    public void ChangeImage(string imageUrl) => _imageUrl = imageUrl;
+    public void RemoveAuthor(Author author)
+    {
+        if (_authors.Contains(author) is false)
+            throw new NoItemException($"Book does not have given author: {author.Firstname} {author.Lastname}");
+
+        _authors.Remove(author);
+    }
+
+    public void Modify(string? title, string? description, string? imageUrl, string? pdfUrl)
+    {
+        _title = string.IsNullOrEmpty(title) ? _title : new Title(title);
+        _description = string.IsNullOrEmpty(description) ? _description : new Description(description);
+        _imageUrl = string.IsNullOrEmpty(imageUrl) ? _imageUrl : imageUrl;
+        _pdfUrl = pdfUrl is null ? _pdfUrl : (pdfUrl == "") ? null : pdfUrl;
+    }
 }

@@ -1,4 +1,4 @@
-﻿using ELibrary_BookService.Application.Query.Dto;
+﻿using ELibrary_BookService.Application.Query.Models;
 
 namespace ELibrary_BookService.Application.Query
 {
@@ -6,5 +6,6 @@ namespace ELibrary_BookService.Application.Query
     {
         Task<BookReadModel> GetBook(int id);
         Task<List<BookReadModel>> GetBooks();
+        Task<List<BookReadModel>?> GetBooksByFilter(int? catId, int? tagId, int? authorId);
     }
 }

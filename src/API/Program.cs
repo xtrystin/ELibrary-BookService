@@ -3,6 +3,10 @@ using ELibrary_BookService.Extensions;
 using ELibrary_BookService.Infrastructure.EF;
 using ELibrary_BookService.RabbitMq;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Prometheus;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,10 +58,11 @@ app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.UseCors("OpenCorsPolicy");
 
+app.UseMetricServer();
+app.UseHttpMetrics(options => options.AddCustomLabel("host", context => context.Request.Host.Host));
+
 app.UseAuthentication();
 app.UseAuthorization();
-
-
 
 app.MapControllers();
 
